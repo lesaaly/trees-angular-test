@@ -1,0 +1,30 @@
+<div class="tree-container">
+  <div class="tree-node" *ngFor="let node of nodes; trackBy: trackById" [class.deleted]="node.is_deleted">
+    <div class="node-content">
+      <button 
+        *ngIf="hasChildren(node)"
+        class="expand-button" 
+        (click)="toggleNode(node)"
+        [class.expanded]="isExpanded(node)"
+      >
+        <span class="arrow">▼</span>
+      </button>
+      <div class="expand-placeholder" *ngIf="!hasChildren(node)"></div>
+      
+      <div class="node-template">
+        <ng-container 
+          [ngTemplateOutlet]="templateRef" 
+          [ngTemplateOutletContext]="{ $implicit: node, expandAll: expandAll.bind(this, node) }"
+        ></ng-container>
+      </div>
+    </div>
+    
+    <div class="children-container" *ngIf="hasChildren(node) && isExpanded(node)">
+      <app-tree 
+        [nodes]="node.children" 
+        [templateRef]="templateRef"
+        (nodeClick)="onNodeClick($event)"
+      ></app-tree>
+    </div>
+  </div>
+</div> 

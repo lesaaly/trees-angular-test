@@ -1,0 +1,43 @@
+<div class="trees-page">
+  <h1>Тестовое</h1>
+  
+  <section class="tree-section">
+    <h2>Первое дерево</h2>
+    
+    <app-tree 
+      [nodes]="treeNodes()" 
+      [templateRef]="firstTreeTemplate"
+      (nodeClick)="onFirstTreeClick($event)"
+    ></app-tree>
+  </section>
+  
+  <section class="tree-section">
+    <h2>Второе дерево</h2>
+    
+    <app-tree 
+      [nodes]="treeNodes()" 
+      [templateRef]="secondTreeTemplate"
+      (nodeClick)="onSecondTreeClick($event)"
+    ></app-tree>
+  </section>
+</div>
+
+<ng-template #firstTreeTemplate let-node>
+  <div class="node-info">
+    <span class="node-id">ID: {{ node.id }}</span>
+    <span class="node-title">{{ node.title }}</span>
+    <button class="node-button" (click)="onFirstTreeClick(node)">
+      Нажать
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #secondTreeTemplate let-node let-expandAll="expandAll">
+  <div class="node-info">
+    <span class="node-title">{{ node.title }}</span>
+    <span class="children-count" *ngIf="node.children && node.children.length > 0">{{ node.children.length }}</span>
+    <button class="node-button" (click)="expandAll()">
+      Открыть все
+    </button>
+  </div>
+</ng-template>
